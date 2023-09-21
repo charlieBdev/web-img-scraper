@@ -17,11 +17,11 @@ type ImageInfo = {
 const predefinedUrls = [
 	"https://www.bbc.co.uk/news",
 	"https://www.bbc.co.uk/sport",
-	"https://en.wikipedia.org/wiki/Main_Page",
+	"https://en.wikipedia.org/wiki/Sheffield",
 	"https://charliebdev.vercel.app/projects",
 	"https://rickastley.co.uk/",
 	"https://unsplash.com/",
-	"https://www.bbc.co.uk/food/cuisines/thai_and_south-east_asian",
+	"https://www.bbcgoodfood.com/howto/guide/top-10-most-popular-autumn-recipes",
 	"https://bjjfanatics.com/",
 	"https://blogs.nasa.gov/webb/category/james-webb-space-telescope/",
 	"https://www.akaipro.com/products/mpc-series",
@@ -96,11 +96,13 @@ export default function Home() {
 		setUrl(randomUrl);
 	};
 
+	const handleHistoryLinkClick = (searchedUrl: string) => {
+		setUrl(searchedUrl);
+	};
+
 	return (
 		<main className="flex min-h-screen flex-col items-center p-6 gap-3 justify-center">
-			<Link href="/">
-				<h1 className="text-lg font-bold">Web Image Scraper</h1>
-			</Link>
+			<h1 className="text-lg font-bold">Web Image Scraper</h1>
 			<h2>Search a website for images, select and download... not yet.</h2>
 			<form
 				className="flex flex-col gap-3 w-full items-center lg:w-2/4"
@@ -145,34 +147,36 @@ export default function Home() {
 						Clear
 					</button>
 				</div>
+				{urlHistory.length > 0 && !isLoading && (
+					<section className="flex flex-col items-center bg-neutral-50 bg-opacity-20 rounded shadow-lg hover:shadow-xl w-full p-2 gap-2">
+						<p className="font-semibold text-neutral-950">
+							Your Last 3 Searches
+						</p>
+						<div className="flex flex-wrap gap-3">
+							{urlHistory.map((searchedUrl, index) => (
+								<div className="flex gap-2 items-center" key={index}>
+									<button
+										className="text-neutral-500 hover:text-neutral-950"
+										type="submit"
+										onClick={() => handleHistoryLinkClick(searchedUrl)}
+									>
+										{searchedUrl}
+									</button>
+									<button
+										className="hover:text-orange-500"
+										type="button"
+										onClick={() => handleDelete(index)}
+									>
+										<AiOutlineDelete />
+									</button>
+								</div>
+							))}
+						</div>
+					</section>
+				)}
 			</form>
 
-			{/* {isLoading && (
-				<p className="animate-pulse">Loading... ooh this is exciting!</p>
-			)} */}
 			{error && <p className="text-red-500">{error}</p>}
-
-			{urlHistory.length > 0 && !isLoading && (
-				<section className="flex flex-col items-center bg-neutral-50 bg-opacity-20 rounded shadow-lg hover:shadow-xl w-full p-2 gap-2">
-					<p className="font-semibold text-neutral-950">Last 3 Searches</p>
-					<div className="flex flex-wrap gap-3">
-						{urlHistory.map((searchedUrl, index) => (
-							<div className="flex gap-2 items-center" key={index}>
-								<Link href="/" onClick={() => setUrl(searchedUrl)}>
-									{searchedUrl}
-								</Link>
-								<button
-									className="hover:text-orange-500"
-									type="button"
-									onClick={() => handleDelete(index)}
-								>
-									<AiOutlineDelete />
-								</button>
-							</div>
-						))}
-					</div>
-				</section>
-			)}
 
 			<section className="text-center flex flex-col gap-2 items-center">
 				{imgInfo.length >= 0 && !isLoading && (
