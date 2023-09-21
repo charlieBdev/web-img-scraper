@@ -16,6 +16,7 @@ export default async function handler(req, res) {
       images.forEach(img => {
         const src = img.src
         if (
+          // Number(img.width) > 100 &&
           !img.src.toLowerCase().endsWith('.gif') &&
           !img.src.toLowerCase().startsWith('data:image/gif') &&
           !seenSrcs.has(src)

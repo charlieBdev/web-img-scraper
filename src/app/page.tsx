@@ -6,6 +6,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 // import { Bars } from "react-loading-icons";
 import { Audio } from "react-loading-icons";
 // import { BallTriangle } from "react-loading-icons";
+export const dynamic = "force-dynamic";
 
 type ImageInfo = {
 	src: string;
@@ -36,6 +37,7 @@ export default function Home() {
 	const [urlHistory, setUrlHistory] = useState<string[]>([]);
 	const urlRegex = /^(https?:\/\/)?([\w-]+(\.[\w-]+)+([/?#].*?)?)?$/;
 	const isValidUrl = urlRegex.test(url);
+	// const [filter, setFilter] = useState(false);
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -124,36 +126,52 @@ export default function Home() {
 						isValidUrl && url ? "bg-green-100" : ""
 					} rounded-lg p-1 text-neutral-950 italic w-full`}
 				/>
-				<div className="flex gap-3">
-					<button
-						disabled={isLoading}
-						type="submit"
-						className={`${
-							isLoading ? "animate-pulse" : ""
-						} text-neutral-50 border rounded-lg bg-orange-400 hover:bg-orange-500 p-1 w-24`}
-					>
-						{isLoading ? "Going..." : "Go"}
-					</button>
-					<button
-						disabled={isLoading}
-						type="submit"
-						onClick={handleRandomClick}
-						className={`${
-							isLoading ? "animate-pulse" : ""
-						} text-neutral-50 border rounded-lg bg-orange-400 hover:bg-orange-500 p-1 w-24`}
-					>
-						{isLoading ? "..." : "Random"}
-					</button>
-					<button
-						disabled={isLoading}
-						type="button"
-						onClick={handleClear}
-						className={`${
-							isLoading ? "animate-pulse" : ""
-						} text-neutral-50 border rounded-lg bg-blue-400 hover:bg-blue-500 p-1 w-24`}
-					>
-						Clear
-					</button>
+				<div className="flex flex-col gap-2 items-center">
+					<div className="flex gap-2">
+						<button
+							disabled={isLoading}
+							type="submit"
+							className={`${
+								isLoading ? "animate-pulse" : ""
+							} text-neutral-50 border rounded-lg bg-orange-400 hover:bg-orange-500 p-1 w-24`}
+						>
+							{isLoading ? "Going..." : "Go"}
+						</button>
+						<button
+							disabled={isLoading}
+							type="submit"
+							onClick={handleRandomClick}
+							className={`${
+								isLoading ? "animate-pulse" : ""
+							} text-neutral-50 border rounded-lg bg-orange-400 hover:bg-orange-500 p-1 w-24`}
+						>
+							{isLoading ? "..." : "Random"}
+						</button>
+						<button
+							disabled={isLoading}
+							type="button"
+							onClick={handleClear}
+							className={`${
+								isLoading ? "animate-pulse" : ""
+							} text-neutral-50 border rounded-lg bg-blue-400 hover:bg-blue-500 p-1 w-24`}
+						>
+							Clear
+						</button>
+					</div>
+					{/* <div className="flex gap-2 items-center">
+						<input
+							type="checkbox"
+							id="filterW"
+							name="filterW"
+							onChange={(e) => setFilter(e.target.checked)}
+						/>
+						<label
+							htmlFor="filterW"
+							className="italic text-sm text-neutral-500"
+						>
+							Filter width less than 100px
+						</label>
+					</div> */}
 				</div>
 				{urlHistory.length > 0 && !isLoading && (
 					<section className="flex flex-col items-center bg-neutral-50 bg-opacity-20 rounded shadow-lg hover:shadow-xl w-full p-2 gap-2">
@@ -230,7 +248,7 @@ export default function Home() {
 				>
 					Top
 				</button>
-				<p className="text-neutral-500 text-right">
+				<p className="text-neutral-500 text-right text-sm">
 					©️ 2023{" "}
 					<Link href="https://charliebdev.vercel.app/" target="_blank">
 						Charlie B
