@@ -53,19 +53,27 @@ export default function Home() {
 					const response = await fetch(
 						`/api/scraper?url=${encodeURIComponent(url)}`
 					);
-					const data = await response.json();
-					setImgInfo(data.imgInfo);
+					if (response.ok) {
+						const data = await response.json();
+						if (data.imgInfo.length > 0) {
+							setImgInfo(data.imgInfo);
+							if (!urlHistory.includes(url)) {
+								if (urlHistory.length >= 3) {
+									setUrlHistory([...urlHistory.slice(1), url]);
+								} else {
+									setUrlHistory([...urlHistory, url]);
+								}
+							}
+						} else {
+							setError("Error: No images found from the provided URL");
+						}
+					} else {
+						setError("Error: Could not fetch images. Check the URL");
+					}
 				} catch (error) {
-					setError("Error: Could not fetch images");
+					setError("Error: Caught an error, but not any images");
 				} finally {
 					setIsLoading(false);
-					if (!urlHistory.includes(url)) {
-						if (urlHistory.length >= 3) {
-							setUrlHistory([...urlHistory.slice(1), url]);
-						} else {
-							setUrlHistory([...urlHistory, url]);
-						}
-					}
 				}
 			}
 		}
@@ -179,7 +187,7 @@ export default function Home() {
 			{error && <p className="text-red-500">{error}</p>}
 
 			<section className="text-center flex flex-col gap-2 items-center">
-				{imgInfo.length >= 0 && !isLoading && (
+				{imgInfo.length > 0 && !isLoading && !error && (
 					<p>
 						<span className="font-bold text-neutral-950">{imgInfo.length}</span>{" "}
 						images scraped
