@@ -55,8 +55,8 @@ export default function Home() {
 				setImgInfo([]);
 				try {
 					const response = await fetch(
-						// `/api/scraper?url=${encodeURIComponent(url)}`
-						`http://localhost:3000/api/scraper?url=${encodeURIComponent(url)}`
+						`/api/scraper?url=${encodeURIComponent(url)}`
+						// `http://localhost:3000/api/scraper?url=${encodeURIComponent(url)}`
 					);
 					if (response.ok) {
 						const data = await response.json();
@@ -180,11 +180,11 @@ export default function Home() {
 						<p className="font-semibold text-neutral-950">
 							Your Last 3 Searches
 						</p>
-						<div className="flex flex-wrap gap-3">
+						<div className="flex flex-col gap-3 items-center">
 							{urlHistory.map((searchedUrl, index) => (
 								<div className="flex gap-2 items-center" key={index}>
 									<button
-										className="text-neutral-500 hover:text-neutral-950"
+										className="text-neutral-500 hover:text-neutral-950 truncate"
 										type="submit"
 										onClick={() => handleHistoryLinkClick(searchedUrl)}
 									>
