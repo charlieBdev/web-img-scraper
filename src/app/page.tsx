@@ -4,8 +4,10 @@ import Link from "next/link";
 import { useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 // import { Bars } from "react-loading-icons";
-import { Audio } from "react-loading-icons";
 // import { BallTriangle } from "react-loading-icons";
+import { Audio } from "react-loading-icons";
+import { Header } from "./components/Header";
+import { Footer } from "./components/Footer";
 export const dynamic = "force-dynamic";
 
 type ImageInfo = {
@@ -53,7 +55,8 @@ export default function Home() {
 				setImgInfo([]);
 				try {
 					const response = await fetch(
-						`/api/scraper?url=${encodeURIComponent(url)}`
+						// `/api/scraper?url=${encodeURIComponent(url)}`
+						`http://localhost:3000/api/scraper?url=${encodeURIComponent(url)}`
 					);
 					if (response.ok) {
 						const data = await response.json();
@@ -112,8 +115,7 @@ export default function Home() {
 
 	return (
 		<main className="flex min-h-screen flex-col items-center p-6 gap-3 justify-center">
-			<h1 className="text-lg font-bold">Web Image Scraper</h1>
-			<h2>Search a website for images, select and download... not yet.</h2>
+			<Header />
 			<form
 				className="flex flex-col gap-3 w-full items-center lg:w-2/4"
 				onSubmit={handleSubmit}
@@ -248,12 +250,7 @@ export default function Home() {
 				>
 					Top
 				</button>
-				<p className="text-neutral-500 text-right text-sm">
-					©️ 2023{" "}
-					<Link href="https://charliebdev.vercel.app/" target="_blank">
-						Charlie B
-					</Link>
-				</p>
+				<Footer />
 			</section>
 		</main>
 	);
