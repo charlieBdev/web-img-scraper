@@ -3,6 +3,10 @@
 import Link from "next/link";
 import { useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
+import { BsSearch } from "react-icons/bs";
+import { BsQuestionSquare } from "react-icons/bs";
+import { AiOutlineClear } from "react-icons/ai";
+import { BiSolidToTop } from "react-icons/bi";
 // import { Bars } from "react-loading-icons";
 // import { BallTriangle } from "react-loading-icons";
 import { Audio } from "react-loading-icons";
@@ -99,9 +103,9 @@ export default function Home() {
 	};
 
 	return (
-		<main className="flex min-h-screen flex-col p-6 gap-3">
+		<main className="flex min-h-screen flex-col p-6 gap-3 items-center">
 			<form
-				className="flex flex-col gap-3 w-full items-center lg:w-2/4"
+				className="flex flex-col gap-3 w-full lg:w-2/4"
 				onSubmit={handleSubmit}
 			>
 				<input
@@ -109,8 +113,8 @@ export default function Home() {
 					value={url}
 					placeholder="Enter a URL"
 					className={`${
-						isValidUrl && url ? "bg-green-100" : ""
-					} rounded-lg p-1 text-neutral-950 italic w-full`}
+						isValidUrl && url ? "bg-green-50" : ""
+					} h-10 rounded-lg p-1 text-neutral-950 italic w-full text-center`}
 				/>
 				<div className="flex flex-col gap-2 items-center">
 					<div className="flex gap-2">
@@ -119,9 +123,9 @@ export default function Home() {
 							type="submit"
 							className={`${
 								isLoading ? "animate-pulse" : ""
-							} text-neutral-50 border rounded-lg bg-orange-400 hover:bg-orange-500 p-1 w-24`}
+							} h-10 px-5 text-indigo-700 transition-colors duration-150 border border-indigo-500 rounded-lg focus:shadow-outline hover:bg-indigo-500 hover:text-indigo-100`}
 						>
-							{isLoading ? "Going..." : "Go"}
+							{isLoading ? "..." : <BsSearch />}
 						</button>
 						<button
 							disabled={isLoading}
@@ -129,9 +133,9 @@ export default function Home() {
 							onClick={handleRandomClick}
 							className={`${
 								isLoading ? "animate-pulse" : ""
-							} text-neutral-50 border rounded-lg bg-orange-400 hover:bg-orange-500 p-1 w-24`}
+							} h-10 px-5 text-indigo-700 transition-colors duration-150 border border-indigo-500 rounded-lg focus:shadow-outline hover:bg-indigo-500 hover:text-indigo-100`}
 						>
-							{isLoading ? "..." : "Random"}
+							{isLoading ? "..." : <BsQuestionSquare />}
 						</button>
 						<button
 							disabled={isLoading}
@@ -139,9 +143,9 @@ export default function Home() {
 							onClick={handleClear}
 							className={`${
 								isLoading ? "animate-pulse" : ""
-							} text-neutral-50 border rounded-lg bg-blue-400 hover:bg-blue-500 p-1 w-24`}
+							} h-10 px-5 text-indigo-700 transition-colors duration-150 border border-indigo-500 rounded-lg focus:shadow-outline hover:bg-indigo-500 hover:text-indigo-100`}
 						>
-							Clear
+							{isLoading ? "..." : <AiOutlineClear />}
 						</button>
 					</div>
 					{/* <div className="flex gap-2 items-center">
@@ -170,14 +174,14 @@ export default function Home() {
 							{urlHistory.map((searchedUrl, index) => (
 								<div className="flex gap-2 items-center" key={index}>
 									<button
-										className="text-neutral-500 hover:text-neutral-950 truncate"
+										className="text-sm hover:text-indigo-500 truncate"
 										type="submit"
 										onClick={() => handleHistoryLinkClick(searchedUrl)}
 									>
 										<p className="truncate">{searchedUrl}</p>
 									</button>
 									<button
-										className="hover:text-orange-500"
+										className="hover:text-indigo-500"
 										type="button"
 										onClick={() => handleDelete(index)}
 									>
@@ -196,7 +200,7 @@ export default function Home() {
 			<section className="text-center flex flex-col gap-2 items-center">
 				{/* Results length */}
 				{imgInfo.length > 0 && !isLoading && !error && (
-					<p>
+					<p className="italic">
 						<span className="font-bold text-neutral-950">{imgInfo.length}</span>{" "}
 						images scraped
 					</p>
@@ -204,7 +208,7 @@ export default function Home() {
 
 				{isLoading ? (
 					// <Bars />
-					<div className="flex justify-center">
+					<div className="flex justify-center mt-10">
 						<Audio />
 					</div>
 				) : (
@@ -232,17 +236,16 @@ export default function Home() {
 						))}
 					</div>
 				)}
-
-				{/* Top button */}
-				<button
-					onClick={scrollToTop}
-					className={`${
-						imgInfo.length === 0 ? "hidden" : ""
-					} text-neutral-50 border rounded-lg bg-orange-400 hover:bg-orange-500 p-1 transition duration-300 w-24`}
-				>
-					Top
-				</button>
 			</section>
+			{/* Top button */}
+			<button
+				onClick={scrollToTop}
+				className={`${
+					imgInfo.length === 0 ? "hidden" : ""
+				} h-10 px-5 text-indigo-700 transition-colors duration-150 border border-indigo-500 rounded-lg focus:shadow-outline hover:bg-indigo-500 hover:text-indigo-100`}
+			>
+				<BiSolidToTop />
+			</button>
 		</main>
 	);
 }
