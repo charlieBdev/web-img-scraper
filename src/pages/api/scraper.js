@@ -1,10 +1,15 @@
-import puppeteer from "puppeteer";
+import puppeteer from "puppeteer-core";
 
 export default async function scraper(req, res) {
   const { url } = req.query;
 
   try {
-    const browser = await puppeteer.launch({headless: 'new'});
+    // const browser = await puppeteer.launch({headless: 'new'});
+
+    const browser = await puppeteer.connect({
+      browserWSEndpoint: `wss://chrome.browserless.io?token=${process.env.BLESS_TOKEN}`,
+    })
+
     const page = await browser.newPage();
     await page.goto(url);
 

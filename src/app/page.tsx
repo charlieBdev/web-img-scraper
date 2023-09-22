@@ -6,8 +6,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 // import { Bars } from "react-loading-icons";
 // import { BallTriangle } from "react-loading-icons";
 import { Audio } from "react-loading-icons";
-import { Header } from "./components/Header";
-import { Footer } from "./components/Footer";
+import { predefinedUrls } from "./data";
 export const dynamic = "force-dynamic";
 
 type ImageInfo = {
@@ -16,20 +15,6 @@ type ImageInfo = {
 	height: string;
 	width: string;
 };
-
-const predefinedUrls = [
-	"https://www.bbc.co.uk/news",
-	"https://www.bbc.co.uk/sport",
-	"https://en.wikipedia.org/wiki/Sheffield",
-	"https://charliebdev.vercel.app/projects",
-	"https://rickastley.co.uk/",
-	"https://unsplash.com/",
-	"https://www.bbcgoodfood.com/howto/guide/top-10-most-popular-autumn-recipes",
-	"https://bjjfanatics.com/",
-	"https://blogs.nasa.gov/webb/category/james-webb-space-telescope/",
-	"https://www.akaipro.com/products/mpc-series",
-	"https://www.rane.com/products/mixers",
-];
 
 export default function Home() {
 	const [url, setUrl] = useState("");
@@ -114,8 +99,7 @@ export default function Home() {
 	};
 
 	return (
-		<main className="flex min-h-screen flex-col items-center p-6 gap-3 justify-center">
-			<Header />
+		<main className="flex min-h-screen flex-col p-6 gap-3">
 			<form
 				className="flex flex-col gap-3 w-full items-center lg:w-2/4"
 				onSubmit={handleSubmit}
@@ -175,6 +159,8 @@ export default function Home() {
 						</label>
 					</div> */}
 				</div>
+
+				{/* History */}
 				{urlHistory.length > 0 && !isLoading && (
 					<section className="flex flex-col items-center bg-neutral-50 bg-opacity-20 rounded shadow-lg hover:shadow-xl w-full p-2 gap-2">
 						<p className="font-semibold text-neutral-950">
@@ -188,7 +174,7 @@ export default function Home() {
 										type="submit"
 										onClick={() => handleHistoryLinkClick(searchedUrl)}
 									>
-										{searchedUrl}
+										<p className="truncate">{searchedUrl}</p>
 									</button>
 									<button
 										className="hover:text-orange-500"
@@ -204,21 +190,25 @@ export default function Home() {
 				)}
 			</form>
 
+			{/* Errors */}
 			{error && <p className="text-red-500">{error}</p>}
 
 			<section className="text-center flex flex-col gap-2 items-center">
+				{/* Results length */}
 				{imgInfo.length > 0 && !isLoading && !error && (
 					<p>
 						<span className="font-bold text-neutral-950">{imgInfo.length}</span>{" "}
 						images scraped
 					</p>
 				)}
+
 				{isLoading ? (
 					// <Bars />
 					<div className="flex justify-center">
 						<Audio />
 					</div>
 				) : (
+					// Results
 					<div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 						{imgInfo.map((img, index) => (
 							<div
@@ -242,6 +232,8 @@ export default function Home() {
 						))}
 					</div>
 				)}
+
+				{/* Top button */}
 				<button
 					onClick={scrollToTop}
 					className={`${
@@ -250,7 +242,6 @@ export default function Home() {
 				>
 					Top
 				</button>
-				<Footer />
 			</section>
 		</main>
 	);
