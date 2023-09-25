@@ -116,6 +116,7 @@ export default function Home() {
 				<div className="flex flex-col gap-2 items-center">
 					<div className="flex gap-2">
 						<button
+							aria-label="Submit Form"
 							disabled={isLoading}
 							type="submit"
 							className={`${
@@ -125,6 +126,7 @@ export default function Home() {
 							{isLoading ? "..." : <BsSearch />}
 						</button>
 						<button
+							aria-label="Random Search"
 							disabled={isLoading}
 							type="submit"
 							onClick={handleRandomClick}
@@ -135,6 +137,7 @@ export default function Home() {
 							{isLoading ? "..." : <BsQuestionSquare />}
 						</button>
 						<button
+							aria-label="Clear Form"
 							disabled={isLoading}
 							type="button"
 							onClick={handleClear}
@@ -169,6 +172,7 @@ export default function Home() {
 							{urlHistory.map((searchedUrl, index) => (
 								<div className="flex gap-2 items-center" key={index}>
 									<button
+										aria-label={`Go to ${searchedUrl}`}
 										className="text-sm hover:text-indigo-500 truncate"
 										type="submit"
 										onClick={() => handleHistoryLinkClick(searchedUrl)}
@@ -176,6 +180,7 @@ export default function Home() {
 										<p className="truncate">{searchedUrl}</p>
 									</button>
 									<button
+										aria-label={`Delete ${searchedUrl} from search history`}
 										className="hover:text-indigo-500"
 										type="button"
 										onClick={() => handleDelete(index)}
@@ -236,6 +241,7 @@ export default function Home() {
 			</section>
 			{/* Top button */}
 			<button
+				aria-label="Scroll to Top"
 				onClick={scrollToTop}
 				className={`${
 					imgInfo.length === 0 ? "hidden" : ""

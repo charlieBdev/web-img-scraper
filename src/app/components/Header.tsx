@@ -14,6 +14,7 @@ export const Header = () => {
 			<div className="flex items-center justify-between">
 				<h1 className="text-lg font-bold tracking-wide">Web Image Scraper</h1>
 				<button
+					aria-label={`Switch to ${theme === "light" ? "Dark" : "Light"} Mode`}
 					onClick={theme === "light" ? switchDark : switchLight}
 					className="text-lg text-indigo-700 transition-colors duration-150 rounded-lg focus:shadow-outline hover:bg-indigo-500 hover:text-indigo-100"
 				>
