@@ -1,5 +1,7 @@
 "use client";
 
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
 import Link from "next/link";
 import { useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
@@ -7,6 +9,7 @@ import { BsSearch } from "react-icons/bs";
 import { BsQuestionSquare } from "react-icons/bs";
 import { AiOutlineClear } from "react-icons/ai";
 import { BiSolidToTop } from "react-icons/bi";
+import { FiSave } from "react-icons/fi";
 // import { Bars } from "react-loading-icons";
 // import { BallTriangle } from "react-loading-icons";
 import { Audio } from "react-loading-icons";
@@ -102,6 +105,69 @@ export default function Home() {
 		setUrl(searchedUrl);
 	};
 
+	const handleDownloadAll = async () => {
+		if (imgInfo.length === 0) {
+			return;
+		}
+
+		const confirmDownload = window.confirm(
+			"Are you sure you want to download all images?"
+		);
+
+		if (!confirmDownload) {
+			return;
+		}
+
+		const zip = new JSZip();
+
+		// Create a promise for fetching each image
+		const fetchPromises = imgInfo.map(async (img, index) => {
+			try {
+				const response = await fetch(img.src);
+				if (!response.ok) {
+					throw new Error(`Failed to fetch image: ${img.src}`);
+				}
+				const blob = await response.blob();
+				zip.file(
+					`image_${index + 1}.${img.src.split(".").pop() || "jpg"}`,
+					blob
+				);
+			} catch (error) {
+				setError("Error: Oops, that did not work. Please try again.");
+			}
+		});
+
+		// Wait for all fetch promises to complete
+		await Promise.all(fetchPromises);
+
+		// Generate the zip file
+		zip.generateAsync({ type: "blob" }).then((blob) => {
+			const link = document.createElement("a");
+			link.href = URL.createObjectURL(blob);
+			link.download = "images.zip";
+			link.click();
+		});
+	};
+
+	const handleDownloadOne = (imageUrl: string, fileName: string) => {
+		const confirmDownload = window.confirm(
+			"Are you sure you want to download this image?"
+		);
+
+		if (!confirmDownload) {
+			return;
+		}
+
+		fetch(imageUrl)
+			.then((response) => response.blob())
+			.then((blob) => {
+				saveAs(blob, fileName);
+			})
+			.catch((error) => {
+				setError("Error: Oops, that did not work. Please try again.");
+			});
+	};
+
 	return (
 		<main className="flex min-h-screen flex-col gap-2 items-center">
 			<form className="flex flex-col gap-2 w-full" onSubmit={handleSubmit}>
@@ -119,9 +185,7 @@ export default function Home() {
 							aria-label="Submit Form"
 							disabled={isLoading}
 							type="submit"
-							className={`${
-								isLoading ? "animate-pulse" : ""
-							} h-10 px-5 text-indigo-700 transition-colors duration-150 border border-indigo-500 rounded-lg focus:shadow-outline hover:bg-indigo-500 hover:text-indigo-100`}
+							className={`${isLoading ? "animate-pulse" : ""} button_sty`}
 						>
 							{isLoading ? "..." : <BsSearch />}
 						</button>
@@ -130,9 +194,7 @@ export default function Home() {
 							disabled={isLoading}
 							type="submit"
 							onClick={handleRandomClick}
-							className={`${
-								isLoading ? "animate-pulse" : ""
-							} h-10 px-5 text-indigo-700 transition-colors duration-150 border border-indigo-500 rounded-lg focus:shadow-outline hover:bg-indigo-500 hover:text-indigo-100`}
+							className={`${isLoading ? "animate-pulse" : ""} button_sty`}
 						>
 							{isLoading ? "..." : <BsQuestionSquare />}
 						</button>
@@ -141,9 +203,7 @@ export default function Home() {
 							disabled={isLoading}
 							type="button"
 							onClick={handleClear}
-							className={`${
-								isLoading ? "animate-pulse" : ""
-							} h-10 px-5 text-indigo-700 transition-colors duration-150 border border-indigo-500 rounded-lg focus:shadow-outline hover:bg-indigo-500 hover:text-indigo-100`}
+							className={`${isLoading ? "animate-pulse" : ""} button_sty`}
 						>
 							{isLoading ? "..." : <AiOutlineClear />}
 						</button>
@@ -200,9 +260,20 @@ export default function Home() {
 			<section className="text-center flex flex-col gap-2 items-center">
 				{/* Results length */}
 				{imgInfo.length > 0 && !isLoading && !error && (
-					<p className="italic text-sm">
-						<span className="font-bold">{imgInfo.length}</span> images scraped
-					</p>
+					<>
+						<p className="italic text-sm">
+							<span className="font-bold">{imgInfo.length}</span> images scraped
+						</p>
+						{imgInfo.length > 0 && (
+							<button
+								aria-label="Download All Images"
+								className="button_sty"
+								onClick={handleDownloadAll}
+							>
+								<FiSave />
+							</button>
+						)}
+					</>
 				)}
 
 				{isLoading ? (
@@ -225,15 +296,28 @@ export default function Home() {
 										key={index}
 										src={img.src}
 										alt={img.alt || `No alt tag was found`}
-										className="rounded-t w-full"
+										className="rounded-t w-full hover:shadow-lg"
 									/>
 								</Link>
-								<p className="text-left p-1 text-sm">
-									{img.alt || "No alt tag was found"}
-								</p>
-								<p className="text-left p-1 text-xs">
-									{img.width} x {img.height} pixels
-								</p>
+								<div className="flex justify-between">
+									<div>
+										<p className="text-left p-1 text-sm">
+											{img.alt || "No alt tag was found"}
+										</p>
+										<p className="text-left p-1 text-xs">
+											{img.width} x {img.height} pixels
+										</p>
+									</div>
+									<button
+										aria-label={`Download ${img.alt}`}
+										className="button_sty m-1"
+										onClick={() =>
+											handleDownloadOne(img.src, `image_${index + 1}.jpg`)
+										}
+									>
+										<FiSave />
+									</button>
+								</div>
 							</div>
 						))}
 					</div>
@@ -243,9 +327,7 @@ export default function Home() {
 			<button
 				aria-label="Scroll to Top"
 				onClick={scrollToTop}
-				className={`${
-					imgInfo.length === 0 ? "hidden" : ""
-				} h-10 px-5 text-indigo-700 transition-colors duration-150 border border-indigo-500 rounded-lg focus:shadow-outline hover:bg-indigo-500 hover:text-indigo-100`}
+				className={`${imgInfo.length === 0 ? "hidden" : ""} button_sty`}
 			>
 				<BiSolidToTop />
 			</button>

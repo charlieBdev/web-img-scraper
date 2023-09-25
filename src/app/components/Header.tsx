@@ -16,7 +16,7 @@ export const Header = () => {
 				<button
 					aria-label={`Switch to ${theme === "light" ? "Dark" : "Light"} Mode`}
 					onClick={theme === "light" ? switchDark : switchLight}
-					className="text-lg text-indigo-700 transition-colors duration-150 rounded-lg focus:shadow-outline hover:bg-indigo-500 hover:text-indigo-100"
+					className="text-lg transition-colors duration-150 rounded-lg hover:bg-indigo-500 hover:text-indigo-100"
 				>
 					{theme === "light" ? "🌙" : "☀️"}
 				</button>
