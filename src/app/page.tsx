@@ -103,11 +103,8 @@ export default function Home() {
 	};
 
 	return (
-		<main className="flex min-h-screen flex-col px-6 pb-6 gap-3 items-center">
-			<form
-				className="flex flex-col gap-3 w-full lg:w-2/4"
-				onSubmit={handleSubmit}
-			>
+		<main className="flex min-h-screen flex-col gap-3 items-center">
+			<form className="flex flex-col gap-3 w-full" onSubmit={handleSubmit}>
 				<input
 					onChange={(e) => setUrl(e.target.value)}
 					value={url}

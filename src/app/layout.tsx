@@ -21,7 +21,7 @@ export default function RootLayout({
 		<html lang="en">
 			<body className={inter.className}>
 				<ThemeProvider>
-					<div className="">
+					<div className="px-6 py-3 md:px-12 lg:px-24">
 						<Header />
 						{children}
 						<Footer />
