@@ -10,7 +10,7 @@ export const Header = () => {
 	const { theme, switchLight, switchDark } = useContext(ThemeContext);
 
 	return (
-		<header className="flex flex-col justify-center p-6">
+		<header className="flex flex-col justify-center mb-2">
 			<div className="flex items-center justify-between">
 				<h1 className="text-lg font-bold tracking-wide">Web Image Scraper</h1>
 				<button
