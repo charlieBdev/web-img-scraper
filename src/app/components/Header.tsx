@@ -1,15 +1,27 @@
+"use client";
+
+import { useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext";
+// import { CiLight } from "react-icons/ci";
+// import { CiDark } from "react-icons/ci";
 // import Link from "next/link";
 
 export const Header = () => {
+	const { theme, switchLight, switchDark } = useContext(ThemeContext);
+
 	return (
-		<header className="flex flex-col items-center p-6 bg-neutral-50 bg-opacity-20 shadow-lg">
-			{/* <Link href="/"> */}
-			<h1 className="text-lg font-bold tracking-wide text-neutral-950">
-				Web Image Scraper
-			</h1>
-			{/* </Link> */}
-			<h2 className="italic text-md text-center font-light text-neutral-500">
-				Search a website for images, select and download... not yet.
+		<header className="flex flex-col justify-center p-6">
+			<div className="flex items-center justify-between">
+				<h1 className="text-lg font-bold tracking-wide">Web Image Scraper</h1>
+				<button
+					onClick={theme === "light" ? switchDark : switchLight}
+					className="text-lg text-indigo-700 transition-colors duration-150 rounded-lg focus:shadow-outline hover:bg-indigo-500 hover:text-indigo-100"
+				>
+					{theme === "light" ? "🌙" : "☀️"}
+				</button>
+			</div>
+			<h2 className="italic text-sm font-light">
+				Search a website for images, select and download.
 			</h2>
 		</header>
 	);

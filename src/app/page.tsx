@@ -11,7 +11,7 @@ import { BiSolidToTop } from "react-icons/bi";
 // import { BallTriangle } from "react-loading-icons";
 import { Audio } from "react-loading-icons";
 import { predefinedUrls } from "./data";
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
 
 type ImageInfo = {
 	src: string;
@@ -103,7 +103,7 @@ export default function Home() {
 	};
 
 	return (
-		<main className="flex min-h-screen flex-col p-6 gap-3 items-center">
+		<main className="flex min-h-screen flex-col px-6 pb-6 gap-3 items-center">
 			<form
 				className="flex flex-col gap-3 w-full lg:w-2/4"
 				onSubmit={handleSubmit}
@@ -114,7 +114,7 @@ export default function Home() {
 					placeholder="Enter a URL"
 					className={`${
 						isValidUrl && url ? "bg-green-50" : ""
-					} h-10 rounded-lg p-1 text-neutral-950 italic w-full text-center`}
+					} h-10 rounded-lg p-1 italic w-full text-center border text-neutral-950`}
 				/>
 				<div className="flex flex-col gap-2 items-center">
 					<div className="flex gap-2">
@@ -166,10 +166,8 @@ export default function Home() {
 
 				{/* History */}
 				{urlHistory.length > 0 && !isLoading && (
-					<section className="flex flex-col items-center bg-neutral-50 bg-opacity-20 rounded shadow-lg hover:shadow-xl w-full p-2 gap-2">
-						<p className="font-semibold text-neutral-950">
-							Your Last 3 Searches
-						</p>
+					<section className="flex flex-col items-center bg-neutral-50 bg-opacity-10 rounded shadow-lg hover:shadow-xl w-full p-2 gap-2">
+						<p className="font-semibold">Your Last 3 Searches</p>
 						<div className="flex flex-col gap-3 items-center">
 							{urlHistory.map((searchedUrl, index) => (
 								<div className="flex gap-2 items-center" key={index}>
@@ -201,14 +199,14 @@ export default function Home() {
 				{/* Results length */}
 				{imgInfo.length > 0 && !isLoading && !error && (
 					<p className="italic">
-						<span className="font-bold text-neutral-950">{imgInfo.length}</span>{" "}
-						images scraped
+						<span className="font-bold text-sm">{imgInfo.length}</span> images
+						scraped
 					</p>
 				)}
 
 				{isLoading ? (
 					// <Bars />
-					<div className="flex justify-center mt-10">
+					<div className="flex justify-center mt-48 rounded">
 						<Audio />
 					</div>
 				) : (
@@ -217,7 +215,7 @@ export default function Home() {
 						{imgInfo.map((img, index) => (
 							<div
 								key={index}
-								className="bg-neutral-50 bg-opacity-20 rounded shadow-lg hover:shadow-xl w-full"
+								className="bg-neutral-50 bg-opacity-10 rounded shadow-lg hover:shadow-xl w-full"
 							>
 								<Link href={img.src} target="_blank">
 									<img
@@ -229,8 +227,11 @@ export default function Home() {
 										className="rounded-t w-full"
 									/>
 								</Link>
-								<p className="text-left p-1">
+								<p className="text-left p-1 text-sm">
 									{img.alt || "No alt tag was found"}
+								</p>
+								<p className="text-left p-1 text-xs">
+									{img.width} x {img.height} pixels
 								</p>
 							</div>
 						))}
