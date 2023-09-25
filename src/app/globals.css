@@ -11,3 +11,7 @@
 	background-color: #18181b;
 	color: whitesmoke;
 }
+
+.themeAnim {
+	transition: 0.5s all ease;
+}
