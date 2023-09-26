@@ -14,6 +14,7 @@ import { FiSave } from "react-icons/fi";
 // import { BallTriangle } from "react-loading-icons";
 import { Audio } from "react-loading-icons";
 import { predefinedUrls } from "./data";
+import { truncateUrl } from "./utils/helpers";
 // export const dynamic = "force-dynamic";
 
 type ImageInfo = {
@@ -169,8 +170,8 @@ export default function Home() {
 	};
 
 	return (
-		<main className="flex min-h-screen flex-col gap-2 items-center">
-			<form className="flex flex-col gap-2 w-full" onSubmit={handleSubmit}>
+		<main className="flex min-h-screen flex-col gap-3 items-center">
+			<form className="flex flex-col gap-3 w-full" onSubmit={handleSubmit}>
 				<input
 					onChange={(e) => setUrl(e.target.value)}
 					value={url}
@@ -179,8 +180,8 @@ export default function Home() {
 						isValidUrl && url ? "bg-green-50" : ""
 					} text-sm h-10 rounded-lg p-1 italic w-full text-center border text-neutral-950`}
 				/>
-				<div className="flex flex-col gap-2 items-center">
-					<div className="flex gap-2">
+				<div className="flex flex-col gap-3 items-center">
+					<div className="flex gap-3">
 						<button
 							aria-label="Submit Form"
 							disabled={isLoading}
@@ -226,18 +227,20 @@ export default function Home() {
 
 				{/* History */}
 				{urlHistory.length > 0 && !isLoading && (
-					<section className="flex flex-col items-center bg-neutral-50 bg-opacity-10 rounded shadow-lg hover:shadow-xl w-full p-2 gap-2">
+					<section className="flex flex-col items-center bg-neutral-50 bg-opacity-10 rounded shadow-lg hover:shadow-xl p-1 gap-3">
 						<p className="font-semibold text-md">Your Last 3 Searches</p>
 						<div className="flex flex-col gap-3 items-center">
 							{urlHistory.map((searchedUrl, index) => (
-								<div className="flex gap-2 items-center" key={index}>
+								<div className="flex gap-3 items-center" key={index}>
 									<button
 										aria-label={`Go to ${searchedUrl}`}
-										className="text-sm hover:text-indigo-500 truncate"
+										className="text-sm hover:text-indigo-500"
 										type="submit"
 										onClick={() => handleHistoryLinkClick(searchedUrl)}
 									>
-										<p className="truncate">{searchedUrl}</p>
+										<p className="truncate overflow-scroll px-1">
+											{truncateUrl(searchedUrl)}
+										</p>
 									</button>
 									<button
 										aria-label={`Delete ${searchedUrl} from search history`}
@@ -257,7 +260,7 @@ export default function Home() {
 			{/* Errors */}
 			{error && <p className="text-red-500 text-sm">{error}</p>}
 
-			<section className="text-center flex flex-col gap-2 items-center">
+			<section className="text-center flex flex-col gap-3 items-center">
 				{/* Results length */}
 				{imgInfo.length > 0 && !isLoading && !error && (
 					<>
@@ -278,12 +281,12 @@ export default function Home() {
 
 				{isLoading ? (
 					// <Bars />
-					<div className="flex justify-center mt-48 rounded">
+					<div className="flex justify-center mt-32 rounded">
 						<Audio />
 					</div>
 				) : (
 					// Results
-					<div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+					<div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 						{imgInfo.map((img, index) => (
 							<div
 								key={index}
@@ -304,8 +307,8 @@ export default function Home() {
 										<p className="text-left p-1 text-sm">
 											{img.alt || "No alt tag was found"}
 										</p>
-										<p className="text-left p-1 text-xs">
-											{img.width} x {img.height} pixels
+										<p className="text-left p-1 text-xs items-end">
+											{img.width}x{img.height}px
 										</p>
 									</div>
 									<button
